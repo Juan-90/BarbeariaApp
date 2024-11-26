@@ -1,35 +1,37 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, Alert } from 'react-native';
+import { useAuth } from '../context/AuthContext';
 
 export default function RegisterScreen({ navigation }) {
+  const { register } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleRegister = () => {
+    try {
+      register({ email, password });
+      Alert.alert('Sucesso', 'Usuário registrado com sucesso!');
+      navigation.navigate('Login'); // Redireciona para a tela de login
+    } catch (error) {
+      Alert.alert('Erro', error.message);
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Create an Account</Text>
-      <TextInput style={styles.input} placeholder="Full Name" />
-      <TextInput style={styles.input} placeholder="Email address" keyboardType="email-address" />
-      <TextInput style={styles.input} placeholder="Password" secureTextEntry />
-      <TextInput style={styles.input} placeholder="Confirm Password" secureTextEntry />
-      <TouchableOpacity style={styles.registerButton}>
-        <Text style={styles.registerButtonText}>Register</Text>
-      </TouchableOpacity>
+    <View>
+      <Text>Cadastro</Text>
+      <TextInput 
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+      />
+      <TextInput 
+        placeholder="Senha"
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
+      <Button title="Cadastrar" onPress={handleRegister} />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20 },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 20,
-  },
-  registerButton: {
-    backgroundColor: '#000',
-    padding: 15,
-    borderRadius: 8,
-  },
-  registerButtonText: { color: '#fff', textAlign: 'center', fontSize: 16 },
-});

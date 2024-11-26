@@ -1,69 +1,32 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, Alert } from 'react-native';
+import { useAuth } from '../context/AuthContext';
 
 export default function LoginScreen({ navigation }) {
+  const { login } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    const success = await login(email, password);
+
+    if (success) {
+      Alert.alert('Sucesso', 'Login realizado com sucesso!');
+      navigation.navigate('ClientDashboard'); // Navega para o dashboard
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login or Sign Up</Text>
-
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Continue with Facebook</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Continue with Google</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.orText}>OR</Text>
-
-      <TextInput 
-        style={styles.input} 
-        placeholder="Email address" 
-        keyboardType="email-address" 
+    <View>
+      <Text>Login</Text>
+      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
+      <TextInput
+        placeholder="Senha"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
       />
-      <TouchableOpacity 
-        style={styles.continueButton} 
-        onPress={() => navigation.navigate('ClientDashboard')}
-      >
-        <Text style={styles.continueButtonText}>Continue</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.footerText}>
-        Have a business account?{' '}
-        <Text 
-          style={styles.link} 
-          onPress={() => navigation.navigate('Register')}
-        >
-          Sign in as a professional
-        </Text>
-      </Text>
+      <Button title="Entrar" onPress={handleLogin} />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20 },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
-  button: {
-    backgroundColor: '#ddd',
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 10,
-  },
-  buttonText: { textAlign: 'center', fontSize: 16 },
-  orText: { textAlign: 'center', marginVertical: 20 },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 20,
-  },
-  continueButton: {
-    backgroundColor: '#000',
-    padding: 15,
-    borderRadius: 8,
-  },
-  continueButtonText: { color: '#fff', textAlign: 'center', fontSize: 16 },
-  footerText: { textAlign: 'center', marginTop: 20 },
-  link: { color: 'blue', textDecorationLine: 'underline' },
-});

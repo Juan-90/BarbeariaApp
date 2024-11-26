@@ -1,38 +1,24 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import ClientDashboard from '../screens/ClientDashboard';
 import ProfessionalDashboard from '../screens/ProfessionalDashboard';
+import ScheduleScreen from '../screens/ScheduleScreen';
+import DetailsScreen from '../screens/DetailsScreen';
+
 
 const Stack = createStackNavigator();
 
 export default function AppNavigation() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen 
-          name="Login" 
-          component={LoginScreen} 
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen 
-          name="Register" 
-          component={RegisterScreen} 
-          options={{ title: 'Sign Up' }}
-        />
-        <Stack.Screen 
-          name="ClientDashboard" 
-          component={ClientDashboard} 
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen 
-          name="ProfessionalDashboard" 
-          component={ProfessionalDashboard} 
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator initialRouteName="LoginScreen">
+      <Stack.Screen name="LoginScreen" component={LoginScreen} />
+      <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+      <Stack.Screen name="ClientDashboard" component={ClientDashboard} />
+      <Stack.Screen name="ProfessionalDashboard" component={ProfessionalDashboard} />
+      <Stack.Screen name="Schedule" component={ScheduleScreen} />
+      <Stack.Screen name="Details" component={DetailsScreen} />
+    </Stack.Navigator>
   );
 }

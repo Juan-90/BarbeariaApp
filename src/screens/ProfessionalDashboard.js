@@ -1,34 +1,44 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, Button } from 'react-native';
+import { useAuth } from '../context/AuthContext';
 
-const ProfessionalDashboard = () => {
+export default function ProfessionalDashboard({ navigation }) {
+  const { logout } = useAuth();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Bem-vindo ao Painel do Profissional</Text>
-      <Text style={styles.subtitle}>Aqui você pode gerenciar seus serviços e clientes.</Text>
+    <View>
+      <Text>Bem-vindo à Dashboard do Profissional!</Text>
+      
+      {/* Botão para visualizar agenda */}
+      <Button 
+        title="Visualizar Agenda" 
+        onPress={() => navigation.navigate('Schedule')} 
+      />
+
+      {/* Botão para gerenciar serviços */}
+      <Button 
+        title="Gerenciar Serviços" 
+        onPress={() => navigation.navigate('ManageServices')} 
+      />
+
+      {/* Botão para editar perfil */}
+      <Button 
+        title="Editar Perfil" 
+        onPress={() => navigation.navigate('EditProfile')} 
+      />
+
+      {/* Botão de Logout */}
+      <Button 
+        title="Sair" 
+        onPress={logout} 
+      />
+
+      {/* Botão para vizualizar os detaljes dos agendamentos de serviços */}
+      <Button
+        title="Ver Detalhes"
+        onPress={() => navigation.navigate('Details')}
+      />
+
     </View>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#333',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-    paddingHorizontal: 20,
-  },
-});
-
-export default ProfessionalDashboard;
+}
