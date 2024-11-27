@@ -6,12 +6,13 @@ export default function RegisterScreen({ navigation }) {
   const { register } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('cliente'); // 'cliente' ou 'profissional'
 
   const handleRegister = () => {
     try {
-      register({ email, password });
+      register({ email, password, role });
       Alert.alert('Sucesso', 'Usuário registrado com sucesso!');
-      navigation.navigate('Login'); // Redireciona para a tela de login
+      navigation.navigate('LoginScreen'); // Redireciona para a tela de login
     } catch (error) {
       Alert.alert('Erro', error.message);
     }
@@ -20,18 +21,14 @@ export default function RegisterScreen({ navigation }) {
   return (
     <View>
       <Text>Cadastro</Text>
-      <TextInput 
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
+      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
+      <TextInput placeholder="Senha" value={password} onChangeText={setPassword} secureTextEntry />
+      <TextInput
+        placeholder="Papel (cliente ou profissional)"
+        value={role}
+        onChangeText={setRole}
       />
-      <TextInput 
-        placeholder="Senha"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      <Button title="Cadastrar" onPress={handleRegister} />
+      <Button title="Registrar" onPress={handleRegister} />
     </View>
   );
 }

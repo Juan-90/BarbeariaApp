@@ -7,12 +7,10 @@ export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
-    const success = await login(email, password);
-
+  const handleLogin = () => {
+    const success = login(email, password);
     if (success) {
-      Alert.alert('Sucesso', 'Login realizado com sucesso!');
-      navigation.navigate('ClientDashboard'); // Navega para o dashboard
+      navigation.navigate('HomeScreen'); // Redireciona para a tela inicial
     }
   };
 
