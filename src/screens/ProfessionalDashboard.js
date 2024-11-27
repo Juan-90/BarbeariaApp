@@ -34,6 +34,12 @@ export default function ProfessionalDashboard({ navigation }) {
   );
 }
 
+<Button
+  title="Ver Detalhes do Cliente"
+  onPress={() => navigation.navigate('Details', { clientId: 10 })}
+/>
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

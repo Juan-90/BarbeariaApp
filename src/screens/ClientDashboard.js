@@ -1,35 +1,38 @@
-import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, Alert } from 'react-native';
-import { useAuth } from '../context/AuthContext'; // Contexto de autenticação
+import React from 'react';
+import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-export default function ClientDashboard({ navigation }) {
-  const { user, logout } = useAuth(); // Usando o contexto de autenticação
-  const [appointments, setAppointments] = useState([]); // Simulando agendamentos do cliente
+const services = [
+  { id: '1', name: 'Corte de Cabelo', price: 'R$ 50,00' },
+  { id: '2', name: 'Barba', price: 'R$ 30,00' },
+  { id: '3', name: 'Corte e Barba', price: 'R$ 70,00' },
+];
 
-  // Função de logout
-  const handleLogout = () => {
-    logout(); // Chama o logout do AuthContext
-    navigation.navigate('Login'); // Redireciona para a tela de login
+export default function ClientDashboard() {
+  const navigation = useNavigation();
+
+  const handleSchedule = (service) => {
+    navigation.navigate('Schedule', { service });
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Dashboard do Cliente</Text>
-      <Text>Bem-vindo, {user?.email}</Text>
-      <Text>Tipo de Conta: {user?.role}</Text>
-      
-      {/* Exemplo de agendamentos */}
-      <Text style={styles.sectionTitle}>Meus Agendamentos:</Text>
-      {appointments.length > 0 ? (
-        appointments.map((appointment, index) => (
-          <Text key={index}>Serviço: {appointment.service} - Data: {appointment.date}</Text>
-        ))
-      ) : (
-        <Text>Você ainda não tem agendamentos.</Text>
-      )}
-
-      {/* Botão de logout */}
-      <Button title="Logout" onPress={handleLogout} />
+      <Text style={styles.title}>Serviços Disponíveis</Text>
+      <FlatList
+        data={services}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <Text style={styles.serviceName}>{item.name}</Text>
+            <Text style={styles.servicePrice}>{item.price}</Text>
+            <Button
+              title="Agendar"
+              onPress={() => handleSchedule(item)}
+              color="#FFD700"
+            />
+          </View>
+        )}
+      />
     </View>
   );
 }
@@ -38,14 +41,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: 'center',
+    backgroundColor: '#000',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: '#FFD700',
+    marginBottom: 20,
   },
-  sectionTitle: {
+  card: {
+    padding: 15,
+    marginVertical: 10,
+    borderRadius: 10,
+    backgroundColor: '#333',
+  },
+  serviceName: {
     fontSize: 18,
-    marginTop: 20,
+    fontWeight: 'bold',
+    color: '#FFD700',
+  },
+  servicePrice: {
+    fontSize: 16,
+    color: '#CCC',
   },
 });

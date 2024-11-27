@@ -7,12 +7,15 @@ export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    const success = login(email, password);
-    if (success) {
-      navigation.navigate('HomeScreen'); // Redireciona para a tela inicial
+  function handleLogin() {
+    // Após login bem-sucedido
+    setUser({ role: userRole }); // Define o tipo de conta no estado
+    if (userRole === 'cliente') {
+      navigation.navigate('ClientDashboard');
+    } else {
+      navigation.navigate('ProfessionalDashboard');
     }
-  };
+  }   
 
   return (
     <View>

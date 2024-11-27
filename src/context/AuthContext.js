@@ -1,6 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
 import { Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // Importe o useNavigation
 
 const AuthContext = createContext();
 
@@ -8,14 +7,13 @@ const AuthContext = createContext();
  * Provedor do contexto de autenticação
  */
 export function AuthProvider({ children }) {
-  const navigation = useNavigation(); // Inicializa a navegação
   const [user, setUser] = useState(null); // Representa o usuário logado
   const [users, setUsers] = useState([]); // Simula um banco de dados de usuários
-  const [newUser, setNewUser] = useState(null); // Representa dados temporários antes do cadastro
 
   /**
    * Registra um novo usuário.
    * @param {Object} newUserData - Objeto contendo `email`, `password` e `role` (cliente ou profissional).
+   * @returns {boolean} - Retorna `true` se o registro foi bem-sucedido, caso contrário, `false`.
    */
   const register = (newUserData) => {
     const userExists = users.find((u) => u.email === newUserData.email);
@@ -28,10 +26,6 @@ export function AuthProvider({ children }) {
     setUsers((prevUsers) => [...prevUsers, newUserData]);
     setUser(newUserData); // Faz login automático após o registro
     Alert.alert('Sucesso', 'Registro concluído com sucesso!');
-
-    // Navegar para a tela 'Home' após o cadastro
-    navigation.navigate('Home');
-    
     return true;
   };
 
@@ -67,8 +61,6 @@ export function AuthProvider({ children }) {
       value={{
         user,
         users,
-        newUser,
-        setNewUser,
         register,
         login,
         logout,
