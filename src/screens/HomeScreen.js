@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, StyleSheet } from 'react-native';
 import { useAuth } from '../context/AuthContext';
+import { useNavigation } from '@react-navigation/native';
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen() {
   const { user, logout } = useAuth();
+  const navigation = useNavigation();
 
-  const navigateToDashboard = () => {
+  const handleNavigateToDashboard = () => {
     if (user.role === 'cliente') {
       navigation.navigate('ClientDashboard');
     } else if (user.role === 'profissional') {
@@ -14,10 +16,22 @@ export default function HomeScreen({ navigation }) {
   };
 
   return (
-    <View>
-      <Text>Bem-vindo, {user?.email}</Text>
-      <Button title="Acessar Dashboard" onPress={navigateToDashboard} />
-      <Button title="Logout" onPress={logout} />
+    <View style={styles.container}>
+      <Text style={styles.welcomeText}>Bem-vindo(a), {user.name}!</Text>
+      <Button title="Acessar Dashboard" onPress={handleNavigateToDashboard} />
+      <Button title="Logout" onPress={logout} color="red" />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  welcomeText: {
+    fontSize: 18,
+    marginBottom: 20,
+  },
+});

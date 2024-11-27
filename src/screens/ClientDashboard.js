@@ -1,44 +1,51 @@
-import React from 'react';
-import { View, Text, Button } from 'react-native';
-import { useAuth } from '../context/AuthContext';
+import React, { useState } from 'react';
+import { View, Text, Button, StyleSheet, Alert } from 'react-native';
+import { useAuth } from '../context/AuthContext'; // Contexto de autenticação
 
 export default function ClientDashboard({ navigation }) {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth(); // Usando o contexto de autenticação
+  const [appointments, setAppointments] = useState([]); // Simulando agendamentos do cliente
+
+  // Função de logout
+  const handleLogout = () => {
+    logout(); // Chama o logout do AuthContext
+    navigation.navigate('Login'); // Redireciona para a tela de login
+  };
 
   return (
-    <View>
-      <Text>Bem-vindo à Dashboard do Cliente!</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Dashboard do Cliente</Text>
+      <Text>Bem-vindo, {user?.email}</Text>
+      <Text>Tipo de Conta: {user?.role}</Text>
       
-      {/* Botão para visualizar agendamentos */}
-      <Button 
-        title="Visualizar Agendamentos" 
-        onPress={() => navigation.navigate('Appointments')} 
-      />
+      {/* Exemplo de agendamentos */}
+      <Text style={styles.sectionTitle}>Meus Agendamentos:</Text>
+      {appointments.length > 0 ? (
+        appointments.map((appointment, index) => (
+          <Text key={index}>Serviço: {appointment.service} - Data: {appointment.date}</Text>
+        ))
+      ) : (
+        <Text>Você ainda não tem agendamentos.</Text>
+      )}
 
-      {/* Botão para marcar um novo horário */}
-      <Button 
-        title="Marcar Horário" 
-        onPress={() => navigation.navigate('BookAppointment')} 
-      />
-
-      {/* Botão para editar perfil */}
-      <Button 
-        title="Editar Perfil" 
-        onPress={() => navigation.navigate('EditProfile')} 
-      />
-
-      {/* Botão de Logout */}
-      <Button 
-        title="Sair" 
-        onPress={logout} 
-      />
-
-      {/* Botão de Agendamento de Serviço */}
-      <Button 
-        title="Agendar Serviço" 
-        onPress={() => navigation.navigate('Schedule')} 
-      />
-
+      {/* Botão de logout */}
+      <Button title="Logout" onPress={handleLogout} />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  sectionTitle: {
+    fontSize: 18,
+    marginTop: 20,
+  },
+});
