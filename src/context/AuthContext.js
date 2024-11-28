@@ -60,7 +60,9 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         user,
+        setUser, // Adicionando setUser ao contexto
         users,
+        setUsers, // Opcional, caso precise manipular usuários
         register,
         login,
         logout,

@@ -1,37 +1,25 @@
 import React from 'react';
-import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
-const services = [
-  { id: '1', name: 'Corte de Cabelo', price: 'R$ 50,00' },
-  { id: '2', name: 'Barba', price: 'R$ 30,00' },
-  { id: '3', name: 'Corte e Barba', price: 'R$ 70,00' },
-];
 
 export default function ClientDashboard() {
   const navigation = useNavigation();
 
-  const handleSchedule = (service) => {
-    navigation.navigate('Schedule', { service });
-  };
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Serviços Disponíveis</Text>
-      <FlatList
-        data={services}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <Text style={styles.serviceName}>{item.name}</Text>
-            <Text style={styles.servicePrice}>{item.price}</Text>
-            <Button
-              title="Agendar"
-              onPress={() => handleSchedule(item)}
-              color="#FFD700"
-            />
-          </View>
-        )}
+      <Text style={styles.title}>Bem-vindo ao Dashboard do Cliente!</Text>
+      <Text style={styles.subtitle}>Confira seus serviços e funcionalidades abaixo:</Text>
+      <Button 
+        title="Histórico de Agendamentos" 
+        onPress={() => navigation.navigate('AppointmentHistory')} 
+      />
+      <Button 
+        title="Gerenciar Perfil" 
+        onPress={() => navigation.navigate('EditProfile')} 
+      />
+      <Button 
+        title="Avaliar Serviços" 
+        onPress={() => navigation.navigate('ReviewService')} 
       />
     </View>
   );
@@ -40,28 +28,18 @@ export default function ClientDashboard() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
     padding: 20,
-    backgroundColor: '#000',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#FFD700',
     marginBottom: 20,
   },
-  card: {
-    padding: 15,
-    marginVertical: 10,
-    borderRadius: 10,
-    backgroundColor: '#333',
-  },
-  serviceName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#FFD700',
-  },
-  servicePrice: {
+  subtitle: {
     fontSize: 16,
-    color: '#CCC',
+    marginBottom: 40,
   },
 });
