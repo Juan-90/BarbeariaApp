@@ -1,32 +1,22 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Button, Text } from 'react-native';
 
-export default function AccountTypeScreen() {
-  const navigation = useNavigation();
-
-  // Função para escolher o tipo de conta e navegar para a tela de registro
-  const chooseAccountType = (role) => {
-    navigation.navigate('Register', { role }); // Passa o tipo de conta como parâmetro
-  };
-
+export default function AccountTypeScreen({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Escolha o tipo de conta</Text>
-      <Button title="Cliente" onPress={() => chooseAccountType('cliente')} />
-      <Button title="Profissional" onPress={() => chooseAccountType('profissional')} />
+    <View>
+      <Text>Escolha o tipo de conta</Text>
+      <Button
+        title="Sou Cliente"
+        onPress={() => navigation.navigate('Register', { role: 'cliente' })}
+      />
+      <Button
+        title="Sou Profissional"
+        onPress={() => navigation.navigate('Register', { role: 'profissional' })}
+      />
+      <Button
+        title="Já tenho uma conta"
+        onPress={() => navigation.navigate('Login')}
+      />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-  },
-});
