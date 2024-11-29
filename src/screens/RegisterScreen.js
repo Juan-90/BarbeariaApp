@@ -7,36 +7,35 @@ export default function RegisterScreen({ route, navigation }) {
   const { role } = route.params; // Recebe o tipo de conta do parâmetro
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  /**
-   * Valida o email usando regex.
-   * @param {string} email - Email a ser validado.
-   * @returns {boolean} - Retorna true se o email for válido.
-   */
-  const isValidEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleRegister = () => {
-    // Validações básicas
-    if (!email || !password) {
-      Alert.alert('Erro', 'Todos os campos são obrigatórios.');
+    if (!email || !password || !confirmPassword) {
+      Alert.alert('Erro', 'Preencha todos os campos!');
       return;
     }
 
-    if (!isValidEmail(email)) {
-      Alert.alert('Erro', 'Email inválido.');
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      Alert.alert('Erro', 'Formato de email inválido!');
       return;
     }
 
-    // Registra o usuário
+    if (password.length < 8) {
+      Alert.alert('Erro', 'A senha deve ter no mínimo 8 caracteres!');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      Alert.alert('Erro', 'As senhas não coincidem!');
+      return;
+    }
+
     const success = register({ email, password, role });
 
     if (success) {
-      navigation.navigate(role === 'cliente' ? 'ClientDashboard' : 'ProfessionalDashboard');
-    } else {
-      Alert.alert('Erro', 'Não foi possível concluir o cadastro. Tente novamente.');
+      navigation.navigate(
+        role === 'cliente' ? 'ClientDashboard' : 'ProfessionalDashboard'
+      );
     }
   };
 
@@ -50,8 +49,8 @@ export default function RegisterScreen({ route, navigation }) {
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
-        autoCapitalize="none"
         keyboardType="email-address"
+        autoCapitalize="none"
       />
       <TextInput
         style={styles.input}
@@ -60,29 +59,27 @@ export default function RegisterScreen({ route, navigation }) {
         onChangeText={setPassword}
         secureTextEntry
       />
+      <TextInput
+        style={styles.input}
+        placeholder="Confirmar Senha"
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        secureTextEntry
+      />
       <Button title="Registrar" onPress={handleRegister} />
+      <Text
+        style={styles.link}
+        onPress={() => navigation.navigate('Login')}
+      >
+        Já tem uma conta? Faça login!
+      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 5,
-  },
+  container: { flex: 1, padding: 16, justifyContent: 'center' },
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16, textAlign: 'center' },
+  input: { borderWidth: 1, borderColor: '#ccc', padding: 8, marginBottom: 16, borderRadius: 4 },
+  link: { color: 'blue', textAlign: 'center', marginTop: 16, textDecorationLine: 'underline' },
 });

@@ -1,87 +1,56 @@
-import React, { createContext, useState, useContext } from 'react';
-import { Alert } from 'react-native';
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AuthContext = createContext();
 
-/**
- * Provedor do contexto de autenticação
- */
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null); // Representa o usuário logado
-  const [users, setUsers] = useState([]); // Simula um banco de dados de usuários
+  const [user, setUser] = useState(null);
 
-  /**
-   * Registra um novo usuário.
-   * @param {Object} newUserData - Objeto contendo `email`, `password` e `role` (cliente ou profissional).
-   * @returns {boolean} - Retorna `true` se o registro foi bem-sucedido, caso contrário, `false`.
-   */
-  const register = (newUserData) => {
-    const userExists = users.find((u) => u.email === newUserData.email);
+  // Carregar usuário do AsyncStorage ao inicializar
+  useEffect(() => {
+    const loadUserFromStorage = async () => {
+      const storedUser = await AsyncStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    };
+    loadUserFromStorage();
+  }, []);
 
-    if (userExists) {
-      Alert.alert('Erro', 'Usuário já cadastrado!');
-      return false;
+  // Função de login
+  const login = async (email, password) => {
+    // Lógica de autenticação (simulada aqui)
+    const mockUser = { email, role: email.includes('cliente') ? 'cliente' : 'profissional' };
+    if (password === '12345678') { // Exemplo de senha válida
+      await AsyncStorage.setItem('user', JSON.stringify(mockUser));
+      setUser(mockUser);
+      return mockUser;
+    } else {
+      return null;
     }
+  };
 
-    setUsers((prevUsers) => [...prevUsers, newUserData]);
-    setUser(newUserData); // Faz login automático após o registro
-    Alert.alert('Sucesso', 'Registro concluído com sucesso!');
+  // Função de registro (simulada)
+  const register = async (userData) => {
+    // Simular sucesso de registro
+    await AsyncStorage.setItem('user', JSON.stringify(userData));
+    setUser(userData);
     return true;
   };
 
-  /**
-   * Realiza o login de um usuário.
-   * @param {string} email - Email do usuário.
-   * @param {string} password - Senha do usuário.
-   * @returns {boolean} - Retorna `true` se o login for bem-sucedido, caso contrário, `false`.
-   */
-  const login = (email, password) => {
-    const foundUser = users.find((u) => u.email === email && u.password === password);
-
-    if (foundUser) {
-      setUser(foundUser); // Define o usuário logado
-      Alert.alert('Sucesso', 'Login realizado com sucesso!');
-      return true;
-    } else {
-      Alert.alert('Erro', 'Usuário ou senha inválidos.');
-      return false;
-    }
-  };
-
-  /**
-   * Realiza o logout do usuário.
-   */
-  const logout = () => {
+  // Função de logout
+  const logout = async () => {
+    await AsyncStorage.removeItem('user');
     setUser(null);
-    Alert.alert('Sucesso', 'Logout realizado com sucesso!');
   };
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        setUser, // Adicionando setUser ao contexto
-        users,
-        setUsers, // Opcional, caso precise manipular usuários
-        register,
-        login,
-        logout,
-      }}
-    >
+    <AuthContext.Provider value={{ user, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-/**
- * Hook para acessar o contexto de autenticação.
- */
 export function useAuth() {
-  const context = useContext(AuthContext);
-
-  if (!context) {
-    throw new Error('useAuth deve ser usado dentro de um AuthProvider');
-  }
-
-  return context;
+  return useContext(AuthContext);
 }
