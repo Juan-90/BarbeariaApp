@@ -7,6 +7,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import AccountTypeScreen from '../screens/AccountTypeScreen';
 import ClientDashboard from '../screens/ClientDashboard';
 import ProfessionalDashboard from '../screens/ProfessionalDashboard';
+import ScheduleAppointment from '../screens/ScheduleAppointment';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,8 @@ export default function AppNavigation() {
       {/* Dashboards */}
       <Stack.Screen name="ClientDashboard" component={ClientDashboard} />
       <Stack.Screen name="ProfessionalDashboard" component={ProfessionalDashboard} />
+      <Stack.Screen name="ScheduleAppointment" component={ScheduleAppointment} />
+
     </Stack.Navigator>
   );
 }

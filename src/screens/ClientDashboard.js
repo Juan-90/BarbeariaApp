@@ -1,14 +1,20 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import { useAuth } from '../context/AuthContext';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-export default function ClientDashboard() {
-  const { logout } = useAuth();
-
+export default function ClientDashboard({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bem-vindo ao Dashboard do Cliente!</Text>
-      <Button title="Logout" onPress={logout} color="#d9534f" />
+      <Text style={styles.title}>Bem-vindo ao Painel do Cliente!</Text>
+
+      {/* Botão para agendar serviço */}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('ScheduleAppointment')}
+      >
+        <Text style={styles.buttonText}>Agendar Serviço</Text>
+      </TouchableOpacity>
+
+      {/* Outros botões ou funcionalidades podem ser adicionados aqui */}
     </View>
   );
 }
@@ -18,12 +24,25 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
     padding: 16,
+    backgroundColor: '#f8f8f8',
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 32,
+  },
+  button: {
+    padding: 16,
+    backgroundColor: '#007bff',
+    borderRadius: 8,
+    marginBottom: 16,
+    alignItems: 'center',
+    width: '80%',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
