@@ -2,12 +2,12 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Importação das telas
-import LoginScreen from '../screens/LoginScreen';
-import RegisterScreen from '../screens/RegisterScreen';
-import AccountTypeScreen from '../screens/AccountTypeScreen';
-import ClientDashboard from '../screens/ClientDashboard';
-import ProfessionalDashboard from '../screens/ProfessionalDashboard';
-import ScheduleAppointment from '../screens/ScheduleAppointment';
+import LoginScreen from '@screens/LoginScreen';
+import RegisterScreen from '@screens/RegisterScreen';
+import AccountTypeScreen from '@screens/AccountTypeScreen';
+import ClientDashboard from '@screens/client/ClientDashboard';
+import ProfessionalDashboard from '@screens/professional/ProfessionalDashboard';
+import ScheduleAppointment from '@screens/ScheduleAppointment';
 
 const Stack = createNativeStackNavigator();
 

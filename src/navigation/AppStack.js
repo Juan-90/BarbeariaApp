@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import ClientDashboard from '../screens/ClientDashboard';
-import ProfessionalDashboard from '../screens/ProfessionalDashboard';
+import ClientDashboard from '@screens/ClientDashboard';
+import ProfessionalDashboard from '@screens/ProfessionalDashboard';
 
 const Tab = createBottomTabNavigator();
 

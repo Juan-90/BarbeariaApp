@@ -1,10 +1,11 @@
+// src/screens/client/AppointmentHistory.js
 import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { formatDate } from '@utils/DateUtils';
 
-const appointments = [
-  { id: '1', service: 'Corte de cabelo', date: '2024-12-01', status: 'Realizado' },
-  { id: '2', service: 'Barba', date: '2024-12-03', status: 'Cancelado' },
-  { id: '3', service: 'Corte e Barba', date: '2024-12-05', status: 'Pendente' },
+const mockAppointments = [
+  { id: 1, date: '2024-12-01T14:00:00Z', service: 'Corte de cabelo' },
+  { id: 2, date: '2024-12-05T10:30:00Z', service: 'Barba' },
 ];
 
 export default function AppointmentHistory() {
@@ -12,13 +13,12 @@ export default function AppointmentHistory() {
     <View style={styles.container}>
       <Text style={styles.title}>Histórico de Agendamentos</Text>
       <FlatList
-        data={appointments}
-        keyExtractor={(item) => item.id}
+        data={mockAppointments}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.item}>
             <Text style={styles.service}>{item.service}</Text>
-            <Text>{item.date}</Text>
-            <Text>Status: {item.status}</Text>
+            <Text style={styles.date}>{formatDate(item.date)}</Text>
           </View>
         )}
       />
@@ -29,20 +29,25 @@ export default function AppointmentHistory() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 16,
     backgroundColor: '#fff',
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 16,
   },
   item: {
-    padding: 15,
+    padding: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
   },
   service: {
+    fontSize: 16,
     fontWeight: 'bold',
+  },
+  date: {
+    fontSize: 14,
+    color: '#666',
   },
 });
