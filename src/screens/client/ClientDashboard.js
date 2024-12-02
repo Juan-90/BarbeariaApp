@@ -14,7 +14,21 @@ export default function ClientDashboard({ navigation }) {
         <Text style={styles.buttonText}>Agendar Serviço</Text>
       </TouchableOpacity>
 
-      {/* Outros botões ou funcionalidades podem ser adicionados aqui */}
+      {/* Botão para escolher serviços (ex: corte, barba) */}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('BookAppointment')}
+      >
+        <Text style={styles.buttonText}>Escolher Serviço</Text>
+      </TouchableOpacity>
+
+      {/* Botão para acessar o histórico de agendamentos */}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('AppointmentHistory')}
+      >
+        <Text style={styles.buttonText}>Histórico de Agendamentos</Text>
+      </TouchableOpacity>
     </View>
   );
 }

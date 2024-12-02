@@ -8,6 +8,9 @@ import AccountTypeScreen from '@screens/AccountTypeScreen';
 import ClientDashboard from '@screens/client/ClientDashboard';
 import ProfessionalDashboard from '@screens/professional/ProfessionalDashboard';
 import ScheduleAppointment from '@screens/ScheduleAppointment';
+import BookAppointment from '@screens/client/BookAppointment';
+import AppointmentHistory from '@screens/client/AppointmentHistory';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +28,10 @@ export default function AppNavigation() {
       <Stack.Screen name="ClientDashboard" component={ClientDashboard} />
       <Stack.Screen name="ProfessionalDashboard" component={ProfessionalDashboard} />
       <Stack.Screen name="ScheduleAppointment" component={ScheduleAppointment} />
+
+      {/* Arquivos do DashboardCliente */}
+      <Stack.Screen name="BookAppointment" component={BookAppointment} options={{ title: 'Marcar Horário' }} />
+      <Stack.Screen name="AppointmentHistory" component={AppointmentHistory} options={{ title: 'Histórico de Agendamentos' }} />
 
     </Stack.Navigator>
   );
